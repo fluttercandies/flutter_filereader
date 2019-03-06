@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="example/lib/main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <option name="additionalArgs" value="--target-platform android-arm" />
+    <option name="filePath" value="$PROJECT_DIR$/example/lib/main.dart" />
+    <method v="2" />
+  </configuration>
+</component>
