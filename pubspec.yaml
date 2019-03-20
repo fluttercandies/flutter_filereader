@@ -1,8 +1,8 @@
 name: flutter_filereader
 description: 一个本地文件浏览的工具,Android端使用腾讯x5浏览器实现,Ios端使用UIWebView实现
 version: 0.0.1
-author: shingohu@163.com
-homepage:
+author: shingohu<shingohu@163.com>
+homepage: https://github.com/shingohu/flutter_filereader
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
