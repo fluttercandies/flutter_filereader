@@ -8,8 +8,9 @@ import 'package:flutter/services.dart';
 
 class FileReaderView extends StatefulWidget {
   final String filePath; //需要是本地的路径
+  final Function(bool) openSuccess;
 
-  FileReaderView({Key key, this.filePath});
+  FileReaderView({Key key, this.filePath, this.openSuccess});
 
   @override
   _FileReaderViewState createState() => _FileReaderViewState();
@@ -93,6 +94,9 @@ class _FileReaderViewState extends State<FileReaderView> {
         .then((openSuccess) {
       if (!openSuccess) {
         _setStatus(5);
+      }
+      if (widget.openSuccess != null) {
+        widget.openSuccess(openSuccess);
       }
     });
   }
