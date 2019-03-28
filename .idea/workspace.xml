@@ -5,23 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9e453b1-209c-4833-9f5d-d44df4df07ea" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/test/widget_test.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/flutter_filereader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/flutter_filereader.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/test/widget_test.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flutter_filereader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_filereader.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_filereader.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_filereader.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_filereader/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterFileReaderPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterFileReaderPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -39,10 +29,12 @@
     <session id="1813293832">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.133" value="1" />
           <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.64" value="1" />
           <entry key="project.open.time.98" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -81,6 +73,7 @@
           <entry key="md" value="3" />
           <entry key="properties" value="1" />
           <entry key="swift" value="2" />
+          <entry key="txt" value="22" />
           <entry key="xml" value="4" />
           <entry key="yaml" value="92" />
         </counts>
@@ -90,7 +83,7 @@
           <entry key="Dart" value="1783" />
           <entry key="Markdown" value="3" />
           <entry key="ObjectiveC" value="5" />
-          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="PLAIN_TEXT" value="24" />
           <entry key="Properties" value="1" />
           <entry key="XML" value="4" />
           <entry key="YAML" value="92" />
@@ -100,23 +93,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib/flutter_filereader.dart">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ios/Classes/FileReaderView.swift">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ios/Classes/FileReaderFactory.swift">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
-              <caret line="94" column="25" lean-forward="true" selection-start-line="94" selection-start-column="25" selection-end-line="94" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="342">
+              <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example/pubspec.yaml">
+        <entry file="file://$PROJECT_DIR$/ios/Classes/FlutterFileReaderPlugin.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+            <state relative-caret-position="76">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ios/Classes/FlutterFileReaderPlugin.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ios/Classes/SwiftFlutterFileReaderPlugin.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="6" column="61" selection-start-line="6" selection-start-column="61" selection-end-line="6" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -124,7 +137,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-251">
+            <state relative-caret-position="285">
               <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
@@ -166,8 +179,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="38">
+              <caret line="2" column="53" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -186,7 +199,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/ios/Classes/FlutterFilereaderPlugin.h" />
-        <option value="$PROJECT_DIR$/ios/Classes/SwiftFlutterFileReaderPlugin.swift" />
         <option value="$PROJECT_DIR$/ios/Classes/FlutterFilereaderPlugin.m" />
         <option value="$PROJECT_DIR$/example/pubspec.yaml" />
         <option value="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" />
@@ -197,6 +209,7 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/example/lib/main.dart" />
         <option value="$PROJECT_DIR$/lib/flutter_filereader.dart" />
+        <option value="$PROJECT_DIR$/ios/Classes/SwiftFlutterFileReaderPlugin.swift" />
       </list>
     </option>
   </component>
@@ -212,7 +225,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -223,15 +237,20 @@
             <path>
               <item name="flutter_filereader" type="b2602c69:ProjectViewProjectNode" />
               <item name="flutter_filereader" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="flutter_filereader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flutter_filereader" type="462c0819:PsiDirectoryNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
         <option name="show-excluded-files" value="false" />
       </pane>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -268,6 +287,14 @@
       <option name="presentableId" value="Default" />
       <updated>1551840522286</updated>
     </task>
+    <task id="LOCAL-00001" summary="新增一个是否打开的回调">
+      <created>1553050311224</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1553050311225</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -281,7 +308,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-388" y="-1080" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Captures" order="1" side_tool="true" />
@@ -298,12 +324,12 @@
       <window_info anchor="bottom" id="Android Profiler" order="4" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="5" weight="0.36694387" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.3191268" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.025987526" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.34095633" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="10" weight="0.32952183" />
       <window_info anchor="bottom" id="Find" order="11" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.32952183" />
+      <window_info anchor="bottom" id="Messages" order="12" visible="true" weight="0.32952183" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Theme Preview" order="2" />
@@ -314,6 +340,11 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="新增一个是否打开的回调" />
+    <MESSAGE value="支持pptx" />
+    <option name="LAST_COMMIT_MESSAGE" value="支持pptx" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/test/flutter_filereader_test.dart" />
@@ -333,20 +364,6 @@
     <entry file="file://$PROJECT_DIR$/ios/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/ios/Classes/FlutterFileReaderPlugin.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ios/Classes/SwiftFlutterFileReaderPlugin.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="39" column="36" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example/ios/Runner/Runner-Bridging-Header.h">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -357,13 +374,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ios/Classes/FlutterFileReaderPlugin.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -460,10 +470,30 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/example/test/widget_test.dart" />
+    <entry file="file://$PROJECT_DIR$/lib/flutter_filereader.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="25" column="22" lean-forward="true" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/example/pubspec.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
           <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -493,28 +523,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="53" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ios/Classes/FileReaderView.swift">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ios/Classes/FileReaderFactory.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ios/Classes/FlutterFileReaderPlugin.h">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
+    <entry file="file://$PROJECT_DIR$/ios/Classes/FlutterFileReaderPlugin.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-251">
-          <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="133">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/flutter_filereader.dart">
+    <entry file="file://$PROJECT_DIR$/ios/Classes/SwiftFlutterFileReaderPlugin.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="94" column="25" lean-forward="true" selection-start-line="94" selection-start-column="25" selection-end-line="94" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="114">
+          <caret line="6" column="61" selection-start-line="6" selection-start-column="61" selection-end-line="6" selection-end-column="61" />
         </state>
       </provider>
     </entry>
