@@ -4,7 +4,7 @@ import UIKit
 
 
 let supportFileType = ["doc","docx","pdf","word",
-                              "txt","ppt","xls","jpg"]
+                              "txt","ppt","xls","jpg","pptx"]
 
 public func isSupportOpen(fileType:String) -> Bool {
     if supportFileType.contains(fileType.lowercased()) {
