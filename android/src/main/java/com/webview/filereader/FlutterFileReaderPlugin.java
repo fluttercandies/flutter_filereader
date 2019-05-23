@@ -2,6 +2,9 @@ package com.webview.filereader;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import com.tencent.smtt.export.external.TbsCoreSettings;
@@ -22,6 +25,17 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
     protected static final String channelName = "wv.io/FileReader";
     private MethodChannel methodChannel;
     private Context context;
+    private Handler mainHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == 100) {
+                if (methodChannel != null) {
+                    methodChannel.invokeMethod("onLoad", isLoadX5(context));
+                }
+            }
+            return false;
+        }
+    });
 
 
     private FlutterFileReaderPlugin(Registrar registrar) {
@@ -29,6 +43,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
         methodChannel = new MethodChannel(registrar.messenger(), channelName);
         methodChannel.setMethodCallHandler(this);
         netBroadcastRegister(registrar.context());
+
 
     }
 
@@ -120,10 +135,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
 
 
     private void onX5LoadComplete() {
-        if (methodChannel != null) {
-            methodChannel.invokeMethod("onLoad", isLoadX5(context));
-        }
-
+        mainHandler.sendEmptyMessage(100);
     }
 
 
