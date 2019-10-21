@@ -38,7 +38,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String taskId;
 
-  Map<String, String> files = {
+  Map<String, String> iosfiles = {
     "docx": "assets/files/docx.docx", // IOS test
     "doc": "assets/files/doc.doc", // IOS test
     "xlsx": "assets/files/xlsx.xlsx", // IOS test
@@ -52,8 +52,27 @@ class _HomePageState extends State<HomePage> {
     "png": "assets/files/png.png", //
   };
 
+  Map<String, String> androidfiles = {
+    "docx": "assets/files/docx.docx", // android test
+    "doc": "assets/files/doc.doc", // android test
+    "xlsx": "assets/files/xlsx.xlsx", // android test
+    "xls": "assets/files/xls.xls", // android test
+    "pptx": "assets/files/pptx.pptx", // android test
+    "ppt": "assets/files/ppt.ppt", // android test
+    "pdf": "assets/files/pdf.pdf", // android test
+    "txt": "assets/files/txt.txt" // android test
+
+  };
+
+  Map<String,String> files ;
+
   @override
   void initState() {
+    if(Platform.isAndroid){
+      files = androidfiles;
+    }else{
+      files = iosfiles;
+    }
     super.initState();
   }
 

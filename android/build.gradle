@@ -29,6 +29,8 @@ android {
 }
 
 dependencies {
-    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1072_43646_sharewithdownloadwithfile_withoutGame_obfs_20190429_175122.jar')
+
+    api 'com.tencent.tbs.tbssdk:sdk:43697'
+   // implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1072_43646_sharewithdownloadwithfile_withoutGame_obfs_20190429_175122.jar')
 
 }

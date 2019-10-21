@@ -10,6 +10,8 @@ import android.util.Log;
 import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebView;
 
 import java.util.HashMap;
 
@@ -24,7 +26,9 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
 
     private int x5LoadStatus = -1; // -1 未加载状态  5 成功 10 失败
 
-    protected static final String channelName = "wv.io/FileReader";
+    public static final String channelName = "wv.io/FileReader";
+    private Context ctx;
+    private Context act;
     private MethodChannel methodChannel;
     private Handler mainHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
@@ -40,10 +44,13 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
 
 
     private FlutterFileReaderPlugin(Registrar registrar) {
+        ctx = registrar.context();
+        act = registrar.activity();
         methodChannel = new MethodChannel(registrar.messenger(), channelName);
         methodChannel.setMethodCallHandler(this);
         initX5(registrar.context());
         netBroadcastRegister(registrar.context());
+
     }
 
 
@@ -51,8 +58,8 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
      * Plugin registration.
      */
     public static void registerWith(Registrar registrar) {
-        new FlutterFileReaderPlugin(registrar);
-        registrar.platformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(registrar.messenger(), registrar.activity()));
+        FlutterFileReaderPlugin plugin = new FlutterFileReaderPlugin(registrar);
+        registrar.platformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(registrar.messenger(), registrar.activity(),plugin));
 
     }
 
@@ -65,7 +72,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
             @Override
             public void onChangeListener(int status) {
                 if (!QbSdk.canLoadX5(context)) {
-                    Log.d("FileReader", "网络变化->加载x5内核");
+                  //  Log.d("FileReader", "网络变化->加载x5内核");
                     initX5(context);
                 }
             }
@@ -78,34 +85,40 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
 
 
     public void initX5(final Context context) {
+        Log.d("FileReader","初始化X5->"+QbSdk.canLoadX5(context));
+        if(!QbSdk.canLoadX5(context)){
+            //重要
+            QbSdk.reset(context);
+        }
         // 在调用TBS初始化、创建WebView之前进行如下配置，以开启优化方案
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
         QbSdk.initTbsSettings(map);
         QbSdk.setNeedInitX5FirstTime(true);
         QbSdk.setDownloadWithoutWifi(true);
+
         QbSdk.setTbsListener(new TbsListener() {
             @Override
             public void onDownloadFinish(int i) {
-                Log.d("FileReader", "下载完成");
+                Log.d("FileReader", "TBS下载完成");
             }
 
             @Override
             public void onInstallFinish(int i) {
-                Log.d("FileReader", "安装完成");
+
             }
 
             @Override
             public void onDownloadProgress(int i) {
-                Log.d("FileReader", "下载进度:" + i);
+                Log.d("FileReader", "TBS下载进度:" + i);
             }
         });
 
         QbSdk.initX5Environment(context, new QbSdk.PreInitCallback() {
             @Override
             public void onCoreInitFinished() {
-
-                Log.d("FileReader", "内核初始化结束");
+                Log.d("FileReader", "TBS内核初始化结束");
             }
 
             @Override
@@ -115,11 +128,12 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
                 } else {
                     x5LoadStatus = 10;
                 }
-                Log.d("FileReader", "view初始化完成状态:" + b);
-                Log.d("FileReader", "内核状态:" + QbSdk.canLoadX5(context));
+               // Log.d("FileReader", "view初始化完成状态:" + b);
+                Log.d("FileReader", "TBS内核状态:" + QbSdk.canLoadX5(context));
                 onX5LoadComplete();
             }
         });
+
 
 
     }
@@ -128,7 +142,27 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
     public void onMethodCall(MethodCall methodCall, final MethodChannel.Result result) {
         if ("isLoad".equals(methodCall.method)) {
             result.success(isLoadX5());
+        }else if("openFileByMiniQb".equals(methodCall.method)){
+            String filePath = (String) methodCall.arguments;
+            result.success(openFileByMiniQb(filePath));
         }
+    }
+
+    public boolean openFileByMiniQb(String filePath){
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("style", "1");
+        params.put("local", "false");
+
+
+        QbSdk.openFileReader(act, filePath, params, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String s) {
+                Log.d("FileReader","openFileReader->"+s);
+            }
+        });
+
+        return true;
     }
 
 
@@ -138,6 +172,10 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
 
 
     int isLoadX5() {
+        if(QbSdk.canLoadX5(ctx)){
+         //   Log.d("FileReader","x5 is Load");
+            x5LoadStatus = 5;
+        }
         return x5LoadStatus;
     }
 }

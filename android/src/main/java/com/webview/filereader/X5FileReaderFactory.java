@@ -14,13 +14,15 @@ public class X5FileReaderFactory extends PlatformViewFactory {
 
 
     private final BinaryMessenger messenger;
+    private FlutterFileReaderPlugin plugin;
     private Context mContext;
 
 
-    public X5FileReaderFactory(BinaryMessenger messenger, Context context) {
+    public X5FileReaderFactory(BinaryMessenger messenger, Context context,FlutterFileReaderPlugin plugin) {
         super(StandardMessageCodec.INSTANCE);
         this.messenger = messenger;
         this.mContext = context;
+        this.plugin = plugin;
 
     }
 
@@ -28,6 +30,6 @@ public class X5FileReaderFactory extends PlatformViewFactory {
     public PlatformView create(Context context, int i, Object args) {
         Map<String, Object> params = (Map<String, Object>) args;
 
-        return new X5FileReaderView(mContext, messenger, i, params);
+        return new X5FileReaderView(mContext, messenger, i, params,plugin);
     }
 }

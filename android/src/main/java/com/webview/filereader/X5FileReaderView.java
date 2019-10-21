@@ -23,11 +23,13 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
     private TbsReaderView readerView;
 
     private String tempPath;
-    private Context context;
 
 
-    X5FileReaderView(Context context, BinaryMessenger messenger, int id, Map<String, Object> params) {
-        this.context = context;
+    FlutterFileReaderPlugin plugin ;
+
+
+    X5FileReaderView(Context context, BinaryMessenger messenger, int id, Map<String, Object> params,FlutterFileReaderPlugin plugin) {
+        this.plugin = plugin;
         tempPath = context.getCacheDir() + "/" + "TbsReaderTemp";
         methodChannel = new MethodChannel(messenger, FlutterFileReaderPlugin.channelName + "_" + id);
         methodChannel.setMethodCallHandler(this);
@@ -45,6 +47,8 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
                     openFile((String) methodCall.arguments);
                     result.success(true);
                 } else {
+                //    plugin.openFileByMiniQb((String) methodCall.arguments);
+
                     result.success(false);
                 }
                 break;
@@ -111,13 +115,10 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
 
     @Override
     public void dispose() {
-        Log.d("FileReader", "dispose");
-
+        Log.d("FileReader", "FileReader Close");
         readerView.onStop();
-        QbSdk.closeFileReader(context);
         methodChannel.setMethodCallHandler(null);
         methodChannel = null;
-        context = null;
         readerView = null;
     }
 
