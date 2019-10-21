@@ -10,7 +10,7 @@ import WebKit
 
 class FileReaderView: NSObject,FlutterPlatformView {
     
-    var _webView: WKWebView?
+    var _webView: FileReaderWKWebView?
     
     
     
@@ -41,16 +41,7 @@ class FileReaderView: NSObject,FlutterPlatformView {
             
         }
         
-        
-        
-        self._webView = WKWebView.init(frame: frame)
-        
-//        let map = args as? Dictionary<String, Any>
-//
-//        if map?["filePath"] != nil {
-//            self.openFile(filePath: map?["filaPath"] as! String)
-//        }
-        
+        self._webView = FileReaderWKWebView.init(frame: frame)
         
     }
     
@@ -65,7 +56,7 @@ class FileReaderView: NSObject,FlutterPlatformView {
             let request = URLRequest.init(url: url)
             _webView?.load(request)
         }
-        
+       
     }
     
     
@@ -76,6 +67,9 @@ class FileReaderView: NSObject,FlutterPlatformView {
     func view() -> UIView {
         return _webView!
     }
+    
+  
+    
     
 
 }

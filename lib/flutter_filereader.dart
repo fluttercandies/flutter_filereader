@@ -1,48 +1,56 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-
-//var par = Map();
-//par["filePath"] = "/storage/emulated/0/007/test.xlsx";
+import 'package:flutter_filereader/filereader.dart';
 
 class FileReaderView extends StatefulWidget {
-  final String filePath; //需要是本地的路径
+  final String filePath; //need
   final Function(bool) openSuccess;
+  final Widget loadingWidget;
+  final Widget unSupportFileWidget;
 
-  FileReaderView({Key key, this.filePath, this.openSuccess});
+  FileReaderView(
+      {Key key,
+      this.filePath,
+      this.openSuccess,
+      this.loadingWidget,
+      this.unSupportFileWidget});
 
   @override
   _FileReaderViewState createState() => _FileReaderViewState();
 }
 
 class _FileReaderViewState extends State<FileReaderView> {
-  static const MethodChannel _channel = const MethodChannel('wv.io/FileReader');
-
-  int _status = 0; //0 loading 5,不支持的文件,10 显示
+  FileReaderState _status = FileReaderState.LOADING_ENGINE;
+  String filePath;
 
   @override
   void initState() {
     super.initState();
-
-    _methodChannel();
-  }
-
-  _methodChannel() {
-    _channel.invokeMethod("isLoad").then((onValue) {
-      if (onValue) {
-        _setStatus(10);
+    filePath = widget.filePath;
+    File(filePath).exists().then((exists) {
+      if (exists) {
+        _checkOnLoad();
       } else {
-        _channel.setMethodCallHandler((call) {
-          if (call.method == "onLoad") {
-            _setStatus(10);
-          }
-        });
+        print("本地不存在$filePath");
       }
     });
   }
 
-  _setStatus(int status) {
+  _checkOnLoad() {
+    FileReader.instance.engineLoadStatus((success) {
+      if (success) {
+        _setStatus(FileReaderState.ENGINE_LOAD_SUCCESS);
+      } else {
+        _setStatus(FileReaderState.ENGINE_LOAD_FAIL);
+      }
+    });
+  }
+
+  _setStatus(FileReaderState status) {
     _status = status;
     setState(() {});
   }
@@ -51,16 +59,18 @@ class _FileReaderViewState extends State<FileReaderView> {
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS) {
-      if (_status == 0) {
+      if (_status == FileReaderState.LOADING_ENGINE) {
         return _loadingWidget();
-      } else if (_status == 5) {
+      } else if (_status == FileReaderState.UNSUPPORT_FILE) {
         return _unSupportFile();
-      } else if (_status == 10) {
+      } else if (_status == FileReaderState.ENGINE_LOAD_SUCCESS) {
         if (defaultTargetPlatform == TargetPlatform.android) {
           return _createAndroidView();
         } else {
           return _createIosView();
         }
+      } else if (_status == FileReaderState.ENGINE_LOAD_FAIL) {
+        return _enginLoadFail();
       } else {
         return _loadingWidget();
       }
@@ -70,15 +80,24 @@ class _FileReaderViewState extends State<FileReaderView> {
   }
 
   Widget _unSupportFile() {
+    return widget.unSupportFileWidget ??
+        Center(
+          child: Text("不支持打开${_fileType(widget.filePath)}类型的文件"),
+        );
+  }
+
+  Widget _enginLoadFail() {
+    //最有可能是abi的问题,x5不支持64位的arm架构,所以需要abi过滤为armeabi 或者armv7a
     return Center(
-      child: Text("不支持打开${fileType(widget.filePath)}类型的文件"),
+      child: Text("X5引擎加载失败,请退出重试"),
     );
   }
 
   Widget _loadingWidget() {
-    return Center(
-      child: CupertinoActivityIndicator(),
-    );
+    return widget.loadingWidget ??
+        Center(
+          child: CupertinoActivityIndicator(),
+        );
   }
 
   Widget _createAndroidView() {
@@ -89,15 +108,11 @@ class _FileReaderViewState extends State<FileReaderView> {
   }
 
   _onPlatformViewCreated(int id) {
-    MethodChannel('wv.io/FileReader' + "_$id")
-        .invokeMethod("openFile", widget.filePath)
-        .then((openSuccess) {
-      if (!openSuccess) {
-        _setStatus(5);
+    FileReader.instance.openFile(id, widget.filePath, (success) {
+      if (!success) {
+        _setStatus(FileReaderState.UNSUPPORT_FILE);
       }
-      if (widget.openSuccess != null) {
-        widget.openSuccess(openSuccess);
-      }
+      widget.openSuccess?.call(success);
     });
   }
 
@@ -109,7 +124,7 @@ class _FileReaderViewState extends State<FileReaderView> {
     );
   }
 
-  String fileType(String filePath) {
+  String _fileType(String filePath) {
     if (filePath == null || filePath.isEmpty) {
       return "";
     }

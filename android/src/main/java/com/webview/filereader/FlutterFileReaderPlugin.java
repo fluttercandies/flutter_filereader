@@ -17,20 +17,21 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-/** FlutterX5Plugin */
+/**
+ * FlutterX5Plugin
+ */
 public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler {
 
-    private boolean isFirst = false;
+    private int x5LoadStatus = -1; // -1 未加载状态  5 成功 10 失败
 
     protected static final String channelName = "wv.io/FileReader";
     private MethodChannel methodChannel;
-    private Context context;
     private Handler mainHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 100) {
                 if (methodChannel != null) {
-                    methodChannel.invokeMethod("onLoad", isLoadX5(context));
+                    methodChannel.invokeMethod("onLoad", isLoadX5());
                 }
             }
             return false;
@@ -39,16 +40,16 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
 
 
     private FlutterFileReaderPlugin(Registrar registrar) {
-        this.context = registrar.context();
         methodChannel = new MethodChannel(registrar.messenger(), channelName);
         methodChannel.setMethodCallHandler(this);
+        initX5(registrar.context());
         netBroadcastRegister(registrar.context());
-
-
     }
 
 
-    /** Plugin registration. */
+    /**
+     * Plugin registration.
+     */
     public static void registerWith(Registrar registrar) {
         new FlutterFileReaderPlugin(registrar);
         registrar.platformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(registrar.messenger(), registrar.activity()));
@@ -63,13 +64,8 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
         NetBroadcastReceiver netBroadcastReceiver = new NetBroadcastReceiver(new NetBroadcastReceiver.NetChangeListener() {
             @Override
             public void onChangeListener(int status) {
-                if (isFirst && !QbSdk.canLoadX5(context)) {
-                    isFirst = false;
-                    initX5(context);
-                    return;
-                }
                 if (!QbSdk.canLoadX5(context)) {
-                    Log.d("FileReader", "网络变化");
+                    Log.d("FileReader", "网络变化->加载x5内核");
                     initX5(context);
                 }
             }
@@ -81,7 +77,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
     }
 
 
-    public void initX5(Context context) {
+    public void initX5(final Context context) {
         // 在调用TBS初始化、创建WebView之前进行如下配置，以开启优化方案
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
@@ -97,7 +93,6 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
             @Override
             public void onInstallFinish(int i) {
                 Log.d("FileReader", "安装完成");
-                onX5LoadComplete();
             }
 
             @Override
@@ -110,12 +105,18 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
             @Override
             public void onCoreInitFinished() {
 
-                Log.d("FileReader", "内核初始化完成");
+                Log.d("FileReader", "内核初始化结束");
             }
 
             @Override
             public void onViewInitFinished(boolean b) {
+                if (b) {
+                    x5LoadStatus = 5;
+                } else {
+                    x5LoadStatus = 10;
+                }
                 Log.d("FileReader", "view初始化完成状态:" + b);
+                Log.d("FileReader", "内核状态:" + QbSdk.canLoadX5(context));
                 onX5LoadComplete();
             }
         });
@@ -125,11 +126,8 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
 
     @Override
     public void onMethodCall(MethodCall methodCall, final MethodChannel.Result result) {
-        switch (methodCall.method) {
-            case "isLoad":
-                result.success(isLoadX5(context));
-                break;
-
+        if ("isLoad".equals(methodCall.method)) {
+            result.success(isLoadX5());
         }
     }
 
@@ -139,8 +137,8 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler 
     }
 
 
-    boolean isLoadX5(Context context) {
-        return QbSdk.canLoadX5(context);
+    int isLoadX5() {
+        return x5LoadStatus;
     }
 }
 

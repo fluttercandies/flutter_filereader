@@ -27,7 +27,6 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
 
 
     X5FileReaderView(Context context, BinaryMessenger messenger, int id, Map<String, Object> params) {
-        Log.d("FileReader", "X5FileReaderView");
         this.context = context;
         tempPath = context.getCacheDir() + "/" + "TbsReaderTemp";
         methodChannel = new MethodChannel(messenger, FlutterFileReaderPlugin.channelName + "_" + id);
@@ -60,25 +59,18 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
 
     void openFile(String filePath) {
         if (isSupportFile(filePath)) {
-
-
             //增加下面一句解决没有TbsReaderTemp文件夹存在导致加载文件失败
-
             File bsReaderTempFile = new File(tempPath);
             if (!bsReaderTempFile.exists()) {
                 bsReaderTempFile.mkdir();
             }
-
             //加载文件
             Bundle localBundle = new Bundle();
-
             localBundle.putString("filePath", filePath);
             localBundle.putBoolean("is_bar_show", false);
             localBundle.putBoolean("menu_show", false);
             localBundle.putBoolean("is_bar_animating", false);
-
             localBundle.putString("tempPath", tempPath);
-
             readerView.openFile(localBundle);
         }
 
@@ -125,7 +117,6 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
         QbSdk.closeFileReader(context);
         methodChannel.setMethodCallHandler(null);
         methodChannel = null;
-
         context = null;
         readerView = null;
     }

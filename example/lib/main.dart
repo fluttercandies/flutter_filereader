@@ -1,10 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-
+import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' as prefix0;
 import 'package:flutter_filereader_example/file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,10 +16,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
   @override
   void initState() {
+    PermissionHandler().requestPermissions([PermissionGroup.storage]);
     super.initState();
   }
 
@@ -29,9 +30,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-String filePath =
-    "https://upload.wikimedia.org/wikipedia/commons/6/60/The_Organ_at_Arches_National_Park_Utah_Corrected.jpg";
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -40,99 +38,108 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String taskId;
 
+  Map<String, String> files = {
+    "docx": "assets/files/docx.docx", // IOS test
+    "doc": "assets/files/doc.doc", // IOS test
+    "xlsx": "assets/files/xlsx.xlsx", // IOS test
+    "xls": "assets/files/xls.xls", // IOS test
+    "pptx": "assets/files/pptx.pptx", // IOS test
+    "ppt": "assets/files/ppt.ppt", // IOS test
+    "pdf": "assets/files/pdf.pdf", // IOS test
+    "txt": "assets/files/txt.txt", // IOS test
+    "jpg": "assets/files/jpg.jpg", //
+    "jpeg": "assets/files/jpeg1.jpeg", //
+    "png": "assets/files/png.png", //
+  };
+
   @override
   void initState() {
     super.initState();
-
-    FlutterDownloader.registerCallback((id, status, progress) {
-      print("状态$status");
-      if (taskId == id) {
-        print("下载进度$progress");
-        if (status == DownloadTaskStatus.complete) {
-          _findTaskById(taskId);
-        }
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: FlatButton(
-              onPressed: () {
-                _dowanload();
-              },
-              child: Text("下载")),
-        ));
+      appBar: AppBar(
+        title: const Text('File Reader'),
+      ),
+      body: ListView.builder(
+        itemBuilder: (ctx, index) {
+          return item(
+              files.keys.elementAt(index), files.values.elementAt(index));
+        },
+        itemCount: files.length,
+      ),
+    );
   }
 
-  _dowanload() async {
-    final tasks = await FlutterDownloader.loadTasksWithRawQuery(
-        query: "select * from task where url = '$filePath'");
+  item(String type, String path) {
+    return GestureDetector(
+      onTap: () {
+        onTap(type, path);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        height: 50,
+        margin: EdgeInsetsDirectional.only(bottom: 5),
+        color: Colors.blue,
+        child: Center(
+          child: Text(
+            type,
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
+    );
+  }
 
-    if (tasks.length > 0) {
-      final task = tasks.last;
-      if (task.status == DownloadTaskStatus.complete) {
-        final localPath = task.savedDir +
-            "/" +
-            task.url.substring(task.url.lastIndexOf("/") + 1);
-        print("本地地址为 $localPath");
-
-        if (await File(localPath).exists()) {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return FileReaderPage(filePath: localPath);
-          }));
-          return;
-        }
-      }
-
-      if (task.status == DownloadTaskStatus.running) {
+  onTap(String type, String assetPath) async {
+    String localPath = await fileLocalName(type, assetPath);
+    if (!await File(localPath).exists()) {
+      if (!await asset2Local(type, assetPath)) {
         return;
       }
     }
-
-    String savedPath = (await _localSavedDir()) + "/file";
-
-    final dp = Directory(savedPath);
-    bool exist = await dp.exists();
-    if (!exist) {
-      await dp.create();
-    }
-
-    print("下载路径$savedPath");
-    taskId = await FlutterDownloader.enqueue(
-        url: filePath,
-        savedDir: savedPath,
-        showNotification: false,
-        openFileFromNotification: false);
-
-    print("任务ID$taskId");
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+      return FileReaderPage(
+        filePath: localPath,
+      );
+    }));
   }
 
-  _findTaskById(String taskId) async {
-    final tasks = await FlutterDownloader.loadTasksWithRawQuery(
-        query: "select * from task where task_id = '$taskId'");
+  fileLocalName(String type, String assetPath) async {
+    String dic = await _localSavedDir() + "/filereader/files/";
+    return dic + base64.encode(utf8.encode(assetPath)) + "." + type;
+  }
 
-    if (tasks.length > 0) {
-      final task = tasks.last;
-      if (task.status == DownloadTaskStatus.complete) {
-        final localPath = task.savedDir +
-            "/" +
-            task.url.substring(task.url.lastIndexOf("/") + 1);
+  fileExists(String type, String assetPath) async {
+    String fileName = await fileLocalName(type, assetPath);
+    if (await File(fileName).exists()) {
+      return true;
+    }
+    return false;
+  }
 
-        print("本地地址为 $localPath");
-        if (await File(localPath).exists()) {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return FileReaderPage(filePath: localPath);
-          }));
-          return;
-        }
+  asset2Local(String type, String assetPath) async {
+    if (Platform.isAndroid) {
+      if (await PermissionHandler()
+              .checkPermissionStatus(PermissionGroup.storage) !=
+          PermissionStatus.granted) {
+        debugPrint("没有存储权限");
+        return false;
       }
     }
+
+    File file = File(await fileLocalName(type, assetPath));
+    if (await fileExists(type, assetPath)) {
+      await file.delete();
+    }
+    await file.create(recursive: true);
+    //await file.create();
+    debugPrint("文件路径->" + file.path);
+    ByteData bd = await rootBundle.load(assetPath);
+    await file.writeAsBytes(bd.buffer.asUint8List(), flush: true);
+    return true;
   }
 
   _localSavedDir() async {

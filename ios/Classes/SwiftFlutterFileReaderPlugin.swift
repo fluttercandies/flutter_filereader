@@ -3,8 +3,7 @@ import Flutter
 import UIKit
 
 
-let supportFileType = ["doc","docx","pdf","word",
-                              "txt","ppt","xls","jpg","pptx"]
+let supportFileType = ["docx","doc","xlsx","xls","pptx","ppt","pdf","txt","jpg","jpeg","png"]
 
 public func isSupportOpen(fileType:String) -> Bool {
     if supportFileType.contains(fileType.lowercased()) {
@@ -48,7 +47,7 @@ public class SwiftFlutterFileReaderPlugin: NSObject, FlutterPlugin {
     
     
     if call.method == "isLoad" {
-        result(true)
+        result(5)
         return
     }
   }
