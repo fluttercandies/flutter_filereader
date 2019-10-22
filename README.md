@@ -48,9 +48,9 @@ class _FileReaderPageState extends State<FileReaderPage> {
 ## 注意事项
 
 1. Android端不支持x86和64位arm(x5不支持),解决办法参考[x5如何支持64位手机](https://x5.tencent.com/tbs/technical.html#/detail/sdk/1/34cf1488-7dc2-41ca-a77f-0014112bcab7 "x5如何支持64位手机")
-2. 因为问题1,所以在debug模式下,64位机器会显示x5内核加载不成功。主要是debug模式下,Flutter引擎会根据连接的机器打入对应的库,一但包含有armv8-a,则无法加载x5内核所需的so库
-3. 因为问题1,demo在64位机器上以Fluter项目模式运行或者`flutter run`会无法查看文档。可以使用Android项目模式下直接运行
+2. 因为问题1,所以在debug模式下,64位机器会显示x5内核加载不成功。主要是debug模式下,Flutter引擎会根据连接的机器打入对应的库,一但包含有arm-v8a,则无法加载x5内核所需的so库
+3. 因为问题1,demo在64位机器上以Fluter项目模式运行或者`flutter run`会闪退。可以使用Android项目模式下直接运行
 4. 为什么我本地Debug包可以正常加载内核，但是release包不可以？参考[x5混淆](https://x5.tencent.com/tbs/technical.html#/detail/sdk/1/c25c10b9-00a7-4fd8-99d9-46041f248226 "x5混淆")
-5  暫時不支持支持Android Q(x5内核还未支持)
+5. 暫時不支持Android Q(还未测试,x5内核说还未支持)
 6. txt文档如果显示乱码,请将txt文档编码改成gbk
 
