@@ -4,7 +4,7 @@ import 'package:flutter_filereader/flutter_filereader.dart';
 class FileReaderPage extends StatefulWidget {
   final String filePath;
 
-  FileReaderPage({Key: Key, this.filePath});
+  FileReaderPage({Key key, this.filePath}) : super(key: key);
 
   @override
   _FileReaderPageState createState() => _FileReaderPageState();

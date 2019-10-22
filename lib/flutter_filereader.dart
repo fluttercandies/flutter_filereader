@@ -2,12 +2,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_filereader/filereader.dart';
 
 class FileReaderView extends StatefulWidget {
-  final String filePath; //need
+  final String filePath; //local path
   final Function(bool) openSuccess;
   final Widget loadingWidget;
   final Widget unSupportFileWidget;
@@ -17,7 +16,8 @@ class FileReaderView extends StatefulWidget {
       this.filePath,
       this.openSuccess,
       this.loadingWidget,
-      this.unSupportFileWidget});
+      this.unSupportFileWidget})
+      : super(key: key);
 
   @override
   _FileReaderViewState createState() => _FileReaderViewState();
@@ -88,8 +88,9 @@ class _FileReaderViewState extends State<FileReaderView> {
 
   Widget _enginLoadFail() {
     //最有可能是abi的问题,x5不支持64位的arm架构,所以需要abi过滤为armeabi 或者armv7a
+    //还有可能第一次下载成功,但是加载不成功
     return Center(
-      child: Text("X5引擎加载失败,请退出重试"),
+      child: Text("引擎加载失败,请退出重试"),
     );
   }
 
