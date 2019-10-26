@@ -3,6 +3,16 @@
 
 ##### 一个本地文件浏览的工具,Android端使用腾讯x5浏览器实现,iOS端使用WKWebView实现
 
+
+## Depend on it
+Add this to your package's pubspec.yaml file:
+
+```
+dependencies:
+  flutter_filereader: ^1.0.0
+```
+
+
 ## Support File Type
 * IOS `docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,jpeg,png`
 * Android `docx,doc,xlsx,xls,pptx,ppt,pdf,txt`
