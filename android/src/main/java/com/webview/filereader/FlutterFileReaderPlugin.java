@@ -1,6 +1,5 @@
 package com.webview.filereader;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Handler;
@@ -12,16 +11,13 @@ import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.ValueCallback;
-import com.tencent.smtt.sdk.WebView;
 
 import java.util.HashMap;
 
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 
 
@@ -32,9 +28,13 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
 
     private int x5LoadStatus = -1; // -1 未加载状态  5 成功 10 失败
 
+    private static String TAG = "FileReader";
+
     public static final String channelName = "wv.io/FileReader";
+    private FlutterPluginBinding flutterPluginBinding;
+
     private Context ctx;
-    private Context act;
+    private Context activityContext;
     private MethodChannel methodChannel;
     private Handler mainHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
@@ -49,13 +49,16 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
     });
 
 
+    public FlutterFileReaderPlugin(){
+        Log.d(TAG,"init");
+    }
+
     private void loadParameters(FlutterPluginBinding binding) {
         ctx = binding.getApplicationContext();
         methodChannel = new MethodChannel(binding.getBinaryMessenger(), channelName);
         methodChannel.setMethodCallHandler(this);
         initX5(binding.getApplicationContext());
         netBroadcastRegister(binding.getApplicationContext());
-
     }
 
 
@@ -67,20 +70,18 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
             @Override
             public void onChangeListener(int status) {
                 if (!QbSdk.canLoadX5(context)) {
-                  //  Log.d("FileReader", "网络变化->加载x5内核");
+                  //  Log.d(TAG, "网络变化->加载x5内核");
                     initX5(context);
                 }
             }
         });
         //注册广播接收
         context.registerReceiver(netBroadcastReceiver, filter);
-
-
     }
 
 
     public void initX5(final Context context) {
-        Log.d("FileReader","初始化X5->"+QbSdk.canLoadX5(context));
+        Log.d(TAG,"初始化X5->"+QbSdk.canLoadX5(context));
         if(!QbSdk.canLoadX5(context)){
             //重要
             QbSdk.reset(context);
@@ -96,7 +97,7 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
         QbSdk.setTbsListener(new TbsListener() {
             @Override
             public void onDownloadFinish(int i) {
-                Log.d("FileReader", "TBS下载完成");
+                Log.d(TAG, "TBS下载完成");
             }
 
             @Override
@@ -106,14 +107,14 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
 
             @Override
             public void onDownloadProgress(int i) {
-                Log.d("FileReader", "TBS下载进度:" + i);
+                Log.d(TAG, "TBS下载进度:" + i);
             }
         });
 
         QbSdk.initX5Environment(context, new QbSdk.PreInitCallback() {
             @Override
             public void onCoreInitFinished() {
-                Log.d("FileReader", "TBS内核初始化结束");
+                Log.d(TAG, "TBS内核初始化结束");
             }
 
             @Override
@@ -123,13 +124,11 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
                 } else {
                     x5LoadStatus = 10;
                 }
-               // Log.d("FileReader", "view初始化完成状态:" + b);
-                Log.d("FileReader", "TBS内核状态:" + QbSdk.canLoadX5(context));
+               // Log.d(TAG, "view初始化完成状态:" + b);
+                Log.d(TAG, "TBS内核状态:" + QbSdk.canLoadX5(context));
                 onX5LoadComplete();
             }
         });
-
-
 
     }
 
@@ -149,11 +148,10 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
         params.put("style", "1");
         params.put("local", "false");
 
-
-        QbSdk.openFileReader(act, filePath, params, new ValueCallback<String>() {
+        QbSdk.openFileReader(activityContext, filePath, params, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String s) {
-                Log.d("FileReader","openFileReader->"+s);
+                Log.d(TAG,"openFileReader->"+s);
             }
         });
 
@@ -168,7 +166,7 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
 
     int isLoadX5() {
         if(QbSdk.canLoadX5(ctx)){
-         //   Log.d("FileReader","x5 is Load");
+         //   Log.d(TAG,"x5 is Load");
             x5LoadStatus = 5;
         }
         return x5LoadStatus;
@@ -176,33 +174,38 @@ public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, Me
 
     @Override
     public void onAttachedToEngine(FlutterPluginBinding binding) {
-        this.loadParameters(binding);
-        binding.getPlatformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(binding.getBinaryMessenger(), act, this));
+        this.flutterPluginBinding = binding;
+//
+        Log.d(TAG, "onAttachedToEngine");
     }
 
     @Override
     public void onDetachedFromEngine(FlutterPluginBinding binding) {
-
+        Log.d(TAG, "onDetachedFromEngine");
     }
 
     @Override
     public void onAttachedToActivity(ActivityPluginBinding binding) {
-        ctx = binding.getActivity();
+        this.activityContext = binding.getActivity();
+        this.loadParameters(this.flutterPluginBinding);
+        this.flutterPluginBinding.getPlatformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(this.flutterPluginBinding.getBinaryMessenger(), this.activityContext, this));
+        Log.d(TAG, "onAttachedToActivity");
     }
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
-
+        Log.d(TAG, "onDetachedFromActivityForConfigChanges");
     }
 
     @Override
     public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
-
+        Log.d(TAG, "onReattachedToActivityForConfigChanges");
     }
 
     @Override
     public void onDetachedFromActivity() {
-        ctx = null;
+        Log.d(TAG, "onDetachedFromActivity");
+        activityContext = null;
     }
 }
 
