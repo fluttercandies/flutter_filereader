@@ -22,6 +22,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
+        ndk{abiFilters "armeabi-v7a"}
     }
     lintOptions {
         disable 'InvalidPackage'
