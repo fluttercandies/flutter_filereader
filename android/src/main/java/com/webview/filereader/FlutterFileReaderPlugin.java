@@ -16,6 +16,8 @@ import com.tencent.smtt.sdk.WebView;
 
 import java.util.HashMap;
 
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -26,7 +28,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 /**
  * FlutterX5Plugin
  */
-public class FlutterFileReaderPlugin implements FlutterPlugin,  MethodChannel.MethodCallHandler {
+public class FlutterFileReaderPlugin implements FlutterPlugin, ActivityAware, MethodChannel.MethodCallHandler {
 
     private int x5LoadStatus = -1; // -1 未加载状态  5 成功 10 失败
 
@@ -47,39 +49,14 @@ public class FlutterFileReaderPlugin implements FlutterPlugin,  MethodChannel.Me
     });
 
 
-//    private FlutterFileReaderPlugin(Registrar registrar) {
-//        ctx = registrar.context();
-//        act = registrar.activity();
-//        methodChannel = new MethodChannel(registrar.messenger(), channelName);
-//        methodChannel.setMethodCallHandler(this);
-//        initX5(registrar.context());
-//        netBroadcastRegister(registrar.context());
-//
-//    }
-//
-    public FlutterFileReaderPlugin(Activity activity){
-        act = activity;
-    }
-
     private void loadParameters(FlutterPluginBinding binding) {
         ctx = binding.getApplicationContext();
-//        act = binding.getApplicationContext();
         methodChannel = new MethodChannel(binding.getBinaryMessenger(), channelName);
         methodChannel.setMethodCallHandler(this);
         initX5(binding.getApplicationContext());
         netBroadcastRegister(binding.getApplicationContext());
 
     }
-
-
-    /**
-     * Plugin registration.
-     */
-//    public static void registerWith(Registrar registrar) {
-//        FlutterFileReaderPlugin plugin = new FlutterFileReaderPlugin(registrar);
-//        registrar.platformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(registrar.messenger(), registrar.activity(),plugin));
-//
-//    }
 
 
     public void netBroadcastRegister(final Context context) {
@@ -201,12 +178,31 @@ public class FlutterFileReaderPlugin implements FlutterPlugin,  MethodChannel.Me
     public void onAttachedToEngine(FlutterPluginBinding binding) {
         this.loadParameters(binding);
         binding.getPlatformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(binding.getBinaryMessenger(), act, this));
-//        Log.d("FileReader","onAttachedToEngine->");
     }
 
     @Override
     public void onDetachedFromEngine(FlutterPluginBinding binding) {
 
+    }
+
+    @Override
+    public void onAttachedToActivity(ActivityPluginBinding binding) {
+        ctx = binding.getActivity();
+    }
+
+    @Override
+    public void onDetachedFromActivityForConfigChanges() {
+
+    }
+
+    @Override
+    public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
+
+    }
+
+    @Override
+    public void onDetachedFromActivity() {
+        ctx = null;
     }
 }
 
