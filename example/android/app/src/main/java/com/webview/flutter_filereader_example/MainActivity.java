@@ -1,13 +1,16 @@
 package com.webview.flutter_filereader_example;
 
 import android.os.Bundle;
-import io.flutter.app.FlutterActivity;
-import io.flutter.plugins.GeneratedPluginRegistrant;
+import android.util.Log;
+
+import io.flutter.embedding.android.FlutterActivity;
+
 
 public class MainActivity extends FlutterActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    GeneratedPluginRegistrant.registerWith(this);
+    Log.e("FileReader", "v2 初始化");
   }
+
 }
