@@ -3,6 +3,16 @@
 
 ##### A local file reader tool,Support a variety of file types, such as Doc Eexcl PPT TXT and so on,Android is implemented by tencent x5,iOS is implemented by WKWebView
 
+
+## Depend on it
+Add this to your package's pubspec.yaml file:
+
+```
+dependencies:
+  flutter_filereader: ^1.0.0
+```
+
+
 ## Support File Type
 * IOS `docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,jpeg,png`
 * Android `docx,doc,xlsx,xls,pptx,ppt,pdf,txt`
