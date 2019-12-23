@@ -1,7 +1,7 @@
 # Flutter FileReader
 [![pub package](https://img.shields.io/pub/v/flutter_filereader.svg)](https://pub.dartlang.org/packages/flutter_filereader)
 
-##### 一个本地文件浏览的工具,Android端使用腾讯x5浏览器实现,iOS端使用WKWebView实现
+##### A local file reader tool,Support a variety of file types, such as Doc Eexcl PPT TXT and so on,Android is implemented by tencent x5,iOS is implemented by WKWebView
 
 ## Support File Type
 * IOS `docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,jpeg,png`
@@ -34,7 +34,7 @@ class _FileReaderPageState extends State<FileReaderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("文档"),
+        title: Text("doc"),
       ),
       body: FileReaderView(
         filePath: widget.filePath,

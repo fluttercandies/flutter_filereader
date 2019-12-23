@@ -1,5 +1,5 @@
 name: flutter_filereader
-description: 一个本地文件浏览的工具,Android端使用腾讯x5浏览器实现,iOS端使用UIWebView实现
+description: A local file reader tool,Support a variety of file types, such as Doc Eexcl PPT TXT and so on
 version: 1.0.0
 author: shingohu<shingohu@163.com>
 homepage: https://github.com/shingohu/flutter_filereader

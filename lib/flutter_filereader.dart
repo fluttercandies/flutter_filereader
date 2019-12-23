@@ -35,7 +35,7 @@ class _FileReaderViewState extends State<FileReaderView> {
       if (exists) {
         _checkOnLoad();
       } else {
-        print("本地不存在$filePath");
+        _setStatus(FileReaderState.FILE_NOT_FOUND);
       }
     });
   }
@@ -52,25 +52,28 @@ class _FileReaderViewState extends State<FileReaderView> {
 
   _setStatus(FileReaderState status) {
     _status = status;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (defaultTargetPlatform == TargetPlatform.android ||
-        defaultTargetPlatform == TargetPlatform.iOS) {
+    if (Platform.isAndroid || Platform.isIOS) {
       if (_status == FileReaderState.LOADING_ENGINE) {
         return _loadingWidget();
       } else if (_status == FileReaderState.UNSUPPORT_FILE) {
         return _unSupportFile();
       } else if (_status == FileReaderState.ENGINE_LOAD_SUCCESS) {
-        if (defaultTargetPlatform == TargetPlatform.android) {
+        if (Platform.isAndroid) {
           return _createAndroidView();
         } else {
           return _createIosView();
         }
       } else if (_status == FileReaderState.ENGINE_LOAD_FAIL) {
         return _enginLoadFail();
+      } else if (_status == FileReaderState.FILE_NOT_FOUND) {
+        return _fileNotFoundFile();
       } else {
         return _loadingWidget();
       }
@@ -82,8 +85,14 @@ class _FileReaderViewState extends State<FileReaderView> {
   Widget _unSupportFile() {
     return widget.unSupportFileWidget ??
         Center(
-          child: Text("不支持打开${_fileType(widget.filePath)}类型的文件"),
+          child: Text("不支持打开${_fileType(filePath)}类型的文件"),
         );
+  }
+
+  Widget _fileNotFoundFile() {
+    return Center(
+      child: Text("文件不存在"),
+    );
   }
 
   Widget _enginLoadFail() {
@@ -109,7 +118,7 @@ class _FileReaderViewState extends State<FileReaderView> {
   }
 
   _onPlatformViewCreated(int id) {
-    FileReader.instance.openFile(id, widget.filePath, (success) {
+    FileReader.instance.openFile(id, filePath, (success) {
       if (!success) {
         _setStatus(FileReaderState.UNSUPPORT_FILE);
       }

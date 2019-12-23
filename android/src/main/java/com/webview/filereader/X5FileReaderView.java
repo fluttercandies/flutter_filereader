@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsReaderView;
 
 import java.io.File;
@@ -25,14 +24,15 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
     private String tempPath;
 
 
-    FlutterFileReaderPlugin plugin ;
+    FlutterFileReaderPlugin plugin;
 
 
-    X5FileReaderView(Context context, BinaryMessenger messenger, int id, Map<String, Object> params,FlutterFileReaderPlugin plugin) {
+    X5FileReaderView(Context context, BinaryMessenger messenger, int id, Map<String, Object> params, FlutterFileReaderPlugin plugin) {
         this.plugin = plugin;
         tempPath = context.getCacheDir() + "/" + "TbsReaderTemp";
         methodChannel = new MethodChannel(messenger, FlutterFileReaderPlugin.channelName + "_" + id);
         methodChannel.setMethodCallHandler(this);
+        //这里的Context需要Activity
         readerView = new TbsReaderView(context, this);
         readerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -47,8 +47,7 @@ public class X5FileReaderView implements PlatformView, MethodChannel.MethodCallH
                     openFile((String) methodCall.arguments);
                     result.success(true);
                 } else {
-                //    plugin.openFileByMiniQb((String) methodCall.arguments);
-
+                    //    plugin.openFileByMiniQb((String) methodCall.arguments);
                     result.success(false);
                 }
                 break;
