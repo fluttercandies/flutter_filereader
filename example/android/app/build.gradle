@@ -30,7 +30,7 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-
+    
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.webview.filereaderdemo"
@@ -49,10 +49,11 @@ android {
             ndk {
                 abiFilters "armeabi-v7a"
             }
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
+            useProguard true
             signingConfig signingConfigs.debug
-
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

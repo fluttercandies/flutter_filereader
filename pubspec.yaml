@@ -1,11 +1,12 @@
 name: flutter_filereader
 description: A local file reader tool,Support a variety of file types, such as Doc Eexcl PPT TXT and so on
 version: 2.0.0
-author: shingohu<shingohu@163.com>
+author: shingohu <shingohu@163.com>
 homepage: https://github.com/shingohu/flutter_filereader
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
+  flutter: ">=1.10.0 <2.0.0"
 
 dependencies:
   flutter:
@@ -25,8 +26,12 @@ flutter:
   # be modified. They are used by the tooling to maintain consistency when
   # adding or updating assets for this project.
   plugin:
-    androidPackage: com.webview.filereader
-    pluginClass: FlutterFileReaderPlugin
+    platforms:
+      android:
+        package: com.webview.filereader
+        pluginClass: FlutterFileReaderPlugin
+      ios:
+        pluginClass: FlutterFileReaderPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

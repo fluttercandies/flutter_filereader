@@ -29,13 +29,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            zipAlignEnabled true
             consumerProguardFiles 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
-            zipAlignEnabled true
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
