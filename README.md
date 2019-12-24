@@ -7,9 +7,15 @@
 ## Depend on it
 Add this to your package's pubspec.yaml file:
 
+1.9.1
 ```
 dependencies:
   flutter_filereader: ^1.0.0
+```
+1.12.x
+```
+dependencies:
+  flutter_filereader: ^2.0.0
 ```
 
 
