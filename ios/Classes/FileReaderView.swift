@@ -42,7 +42,8 @@ class FileReaderView: NSObject,FlutterPlatformView {
         }
         
         self._webView = FileReaderWKWebView.init(frame: frame)
-        
+        // 隐藏垂直线条
+        _webView?.scrollView.showsVerticalScrollIndicator = false
     }
     
     
