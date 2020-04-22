@@ -12,15 +12,15 @@ public class NetUtil {
     /**
      * 没有网络
      */
-    private static final int NETWORK_NONE = -1;
+    public static final int NETWORK_NONE = -1;
     /**
      * 移动网络
      */
-    private static final int NETWORK_MOBILE = 0;
+    public static final int NETWORK_MOBILE = 0;
     /**
      * 无线网络
      */
-    private static final int NETWORK_WIFI = 1;
+    public static final int NETWORK_WIFI = 1;
 
     public static int getNetWorkState(Context context) {
         //得到连接管理器对象

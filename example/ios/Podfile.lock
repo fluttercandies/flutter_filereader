@@ -1,17 +1,14 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_downloader (0.0.1):
-    - Flutter
   - flutter_filereader (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
-  - permission_handler (3.0.0):
+  - permission_handler (4.0.0):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
-  - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
   - flutter_filereader (from `.symlinks/plugins/flutter_filereader/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
@@ -19,8 +16,6 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
-  flutter_downloader:
-    :path: ".symlinks/plugins/flutter_downloader/ios"
   flutter_filereader:
     :path: ".symlinks/plugins/flutter_filereader/ios"
   path_provider:
@@ -30,11 +25,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_downloader: 058b9c41564a90500f67f3e432e3524613a7fd83
   flutter_filereader: 72b5c316f673d3b69dea0b591d68083dd6577a24
-  path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
-  permission_handler: 047f11d44db785922214783da5f7a3cc8874c843
+  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
+  permission_handler: 0fb88b8a3c23e31e5de45b8f1bb8b7de28cf8941
 
 PODFILE CHECKSUM: ebd43b443038e611b86ede96e613bd6033c49497
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

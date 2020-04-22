@@ -1,1 +1,1 @@
-#-printconfiguration /Users/xx/Desktop/r8.txt
+-printconfiguration /Users/hujie/Desktop/r8.txt

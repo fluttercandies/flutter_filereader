@@ -18,6 +18,21 @@
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/flutter_filereader/example/ios/Flutter/App.framework/flutter_assets/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/path_provider_macos/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/path_provider_macos/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/path_provider/path_provider_macos/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/permission_handler/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/permission_handler/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/permission_handler/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/permission_handler/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/permission_handler/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/permission_handler/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Flutter/App.framework/flutter_assets/packages" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

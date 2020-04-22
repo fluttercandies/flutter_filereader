@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'com.android.tools.build:gradle:3.6.3'
     }
 }
 rootProject.allprojects {
@@ -38,6 +38,6 @@ android {
 }
 
 dependencies {
-
-    api 'com.tencent.tbs.tbssdk:sdk:43697'
+    //43903 支持文件打开和webview，支持64位，修复稳定性问题
+    api 'com.tencent.tbs.tbssdk:sdk:43903'
 }

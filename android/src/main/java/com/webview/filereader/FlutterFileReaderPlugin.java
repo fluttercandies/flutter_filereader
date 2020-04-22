@@ -7,10 +7,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.ValueCallback;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -33,6 +35,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
     private MethodChannel methodChannel;
     private NetBroadcastReceiver netBroadcastReceiver;
     private FlutterPluginBinding pluginBinding;
+    private QbSdkPreInitCallback preInitCallback;
 
     private Handler mainHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
@@ -51,7 +54,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
         ctx = context;
         methodChannel = new MethodChannel(messenger, channelName);
         methodChannel.setMethodCallHandler(this);
-        initX5(context);
+        // initX5(context);
         netBroadcastRegister(context);
     }
 
@@ -60,10 +63,14 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
     }
 
     private void onDestory() {
+        Log.e("FileReader", "销毁");
         if (netBroadcastReceiver != null && ctx != null) {
             ctx.unregisterReceiver(netBroadcastReceiver);
         }
+        preInitCallback = null;
         ctx = null;
+        mainHandler.removeCallbacksAndMessages(null);
+        mainHandler = null;
         methodChannel = null;
         pluginBinding = null;
     }
@@ -86,7 +93,8 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
         netBroadcastReceiver = new NetBroadcastReceiver(new NetBroadcastReceiver.NetChangeListener() {
             @Override
             public void onChangeListener(int status) {
-                if (x5LoadStatus != 5) {
+                // -1 没有网络
+                if (x5LoadStatus != 5 && status != -1) {
                     initX5(context);
                 }
             }
@@ -104,15 +112,14 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
             //重要
             QbSdk.reset(context);
         }
+        preInitCallback = new QbSdkPreInitCallback();
         // 在调用TBS初始化、创建WebView之前进行如下配置，以开启优化方案
         HashMap<String, Object> map = new HashMap<String, Object>();
-        //  map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
-        // map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
-        // QbSdk.initTbsSettings(map);
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
+        QbSdk.initTbsSettings(map);
         QbSdk.setNeedInitX5FirstTime(true);
         QbSdk.setDownloadWithoutWifi(true);
-
-
         QbSdk.setTbsListener(new TbsListener() {
             @Override
             public void onDownloadFinish(int i) {
@@ -122,6 +129,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
             @Override
             public void onInstallFinish(int i) {
                 Log.e("FileReader", "TBS安装完成");
+
             }
 
             @Override
@@ -130,23 +138,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
             }
         });
 
-        QbSdk.initX5Environment(context, new QbSdk.PreInitCallback() {
-            @Override
-            public void onCoreInitFinished() {
-                Log.e("FileReader", "TBS内核初始化结束");
-            }
-
-            @Override
-            public void onViewInitFinished(boolean b) {
-                if (b) {
-                    x5LoadStatus = 5;
-                } else {
-                    x5LoadStatus = 10;
-                }
-                Log.e("FileReader", "TBS内核状态:" + b + "--" + QbSdk.canLoadX5(context));
-                onX5LoadComplete();
-            }
-        });
+        QbSdk.initX5Environment(context, preInitCallback);
 
 
     }
@@ -183,6 +175,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
 
 
     int isLoadX5() {
+
         if (ctx != null && QbSdk.canLoadX5(ctx)) {
             x5LoadStatus = 5;
         }
@@ -205,9 +198,8 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
     @Override
     public void onAttachedToActivity(ActivityPluginBinding binding) {
         Log.e("FileReader", "onAttachedToActivity");
-        FlutterFileReaderPlugin plugin = new FlutterFileReaderPlugin();
-        plugin.init(pluginBinding.getApplicationContext(), pluginBinding.getBinaryMessenger());
-        pluginBinding.getPlatformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(pluginBinding.getBinaryMessenger(), binding.getActivity(), plugin));
+        init(pluginBinding.getApplicationContext(), pluginBinding.getBinaryMessenger());
+        pluginBinding.getPlatformViewRegistry().registerViewFactory("FileReader", new X5FileReaderFactory(pluginBinding.getBinaryMessenger(), binding.getActivity(), this));
     }
 
     @Override
@@ -224,5 +216,46 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
     public void onDetachedFromActivity() {
         Log.e("FileReader", "onDetachedFromActivity");
     }
+
+
+    class QbSdkPreInitCallback implements QbSdk.PreInitCallback {
+
+        @Override
+        public void onCoreInitFinished() {
+            Log.e("FileReader", "TBS内核初始化结束");
+        }
+
+        @Override
+        public void onViewInitFinished(boolean b) {
+            if (ctx == null) {
+                return;
+            }
+            if (b) {
+                x5LoadStatus = 5;
+                Log.e("FileReader", "TBS内核初始化成功" + "--" + QbSdk.canLoadX5(ctx));
+            } else {
+                x5LoadStatus = 10;
+                resetQbSdkInit();
+                Log.e("FileReader", "TBS内核初始化失败" + "--" + QbSdk.canLoadX5(ctx));
+            }
+            onX5LoadComplete();
+        }
+    }
+
+
+    ///反射 重置初始化状态(没网情况下加载失败)
+    private void resetQbSdkInit() {
+        try {
+            Field field = QbSdk.class.getDeclaredField("s");
+            field.setAccessible(true);
+            field.setBoolean(null, false);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
 

@@ -39,16 +39,11 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters "armeabi-v7a"
-        }
+
     }
 
     buildTypes {
         release {
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
             minifyEnabled true
             shrinkResources true
             useProguard true

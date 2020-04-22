@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-
 class FileReader {
   static FileReader _instance;
 
@@ -58,5 +57,5 @@ enum FileReaderState {
   ENGINE_LOAD_SUCCESS, //loading engine success
   ENGINE_LOAD_FAIL, //loading engine fail (only Android ,ios,Ignore)
   UNSUPPORT_FILE, // not support file type
-  FILE_NOT_FOUND,//file not found
+  FILE_NOT_FOUND, //file not found
 }
