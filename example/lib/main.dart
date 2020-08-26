@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_filereader_example/file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    Permission.storage.request();
     super.initState();
   }
 
@@ -82,8 +83,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView.builder(
         itemBuilder: (ctx, index) {
-          return item(
-              files.keys.elementAt(index), files.values.elementAt(index));
+          return item(files.keys.elementAt(index), files.values.elementAt(index));
         },
         itemCount: files.length,
       ),
@@ -139,9 +139,7 @@ class _HomePageState extends State<HomePage> {
 
   asset2Local(String type, String assetPath) async {
     if (Platform.isAndroid) {
-      if (await PermissionHandler()
-              .checkPermissionStatus(PermissionGroup.storage) !=
-          PermissionStatus.granted) {
+      if (!await Permission.storage.isGranted) {
         debugPrint("没有存储权限");
         return false;
       }

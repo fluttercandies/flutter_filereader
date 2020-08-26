@@ -1,3 +1,7 @@
+## 2.2.0
+* fiexd some bug on Android
+* iOS support swift version 5.0
+
 ## 2.1.0
 * Android支持arm64位的机器
 

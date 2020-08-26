@@ -39,5 +39,5 @@ android {
 
 dependencies {
     //43903 支持文件打开和webview，支持64位，修复稳定性问题
-    api 'com.tencent.tbs.tbssdk:sdk:43903'
+    api 'com.tencent.tbs.tbssdk:sdk:43939'
 }

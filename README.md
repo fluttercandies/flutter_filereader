@@ -15,7 +15,7 @@ dependencies:
 1.12.x
 ```
 dependencies:
-  flutter_filereader: ^2.1.0
+  flutter_filereader: ^2.2.0
 ```
 
 
