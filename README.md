@@ -62,6 +62,7 @@ class _FileReaderPageState extends State<FileReaderPage> {
 
 
 ## 注意事项
-1. 之前版本不支持arm64,目前已经支持
-2. txt文档如果显示乱码,请将txt文档编码改成gbk
+1. 不支持在Android模拟器上运行
+2. 之前版本不支持arm64,目前已经支持
+3. txt文档如果显示乱码,请将txt文档编码改成gbk
 
