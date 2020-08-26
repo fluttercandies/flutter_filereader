@@ -96,7 +96,7 @@ class _FileReaderViewState extends State<FileReaderView> {
   }
 
   Widget _enginLoadFail() {
-    //最有可能是abi的问题,x5不支持64位的arm架构,所以需要abi过滤为armeabi 或者armv7a
+    //最有可能是abi的问题
     //还有可能第一次下载成功,但是加载不成功
     return Center(
       child: Text("引擎加载失败,请退出重试"),
