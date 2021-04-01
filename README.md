@@ -1,7 +1,7 @@
 # Flutter FileReader
 [![pub package](https://img.shields.io/pub/v/flutter_filereader.svg)](https://pub.dartlang.org/packages/flutter_filereader)
 
-##### A local file view widget,Support a variety of file types, such as Doc Eexcl PPT TXT and so on,Android is implemented by Tencent X5,iOS is implemented by WKWebView
+##### A local file view widget,Support a variety of file types, such as Doc Eexcl PPT TXT and so on,Android is implemented by Tencent X5（Not Support GooglePlay）,iOS is implemented by WKWebView
 
 
 ## Depend on it
@@ -62,7 +62,7 @@ class _FileReaderPageState extends State<FileReaderPage> {
 
 
 ## 注意事项
-1. 不支持在Android模拟器上运行
-2. 之前版本不支持arm64,目前已经支持
+1. Not Support GooglePlay
+2. 不支持在Android模拟器上运行
 3. txt文档如果显示乱码,请将txt文档编码改成gbk
 
