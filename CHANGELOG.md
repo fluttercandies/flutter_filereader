@@ -1,3 +1,9 @@
+## 3.0.0
+* support nullsafety
+* update tbs version
+* remove android READ_PHONE_STATE permission
+* remove android:networkSecurityConfig.you can config it in you project
+
 ## 2.2.0
 * fiexd some bug on Android
 * iOS support swift version 5.0

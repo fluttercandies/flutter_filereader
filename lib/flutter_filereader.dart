@@ -1,23 +1,18 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_filereader/filereader.dart';
 
 class FileReaderView extends StatefulWidget {
-  final String filePath; //local path
-  final Function(bool) openSuccess;
-  final Widget loadingWidget;
-  final Widget unSupportFileWidget;
+  final String? filePath; //local path
+  final Function(bool)? openSuccess;
+  final Widget? loadingWidget;
+  final Widget? unSupportFileWidget;
 
-  FileReaderView(
-      {Key key,
-      this.filePath,
-      this.openSuccess,
-      this.loadingWidget,
-      this.unSupportFileWidget})
-      : super(key: key);
+  FileReaderView({Key? key, required this.filePath, this.openSuccess, this.loadingWidget, this.unSupportFileWidget}) : super(key: key);
 
   @override
   _FileReaderViewState createState() => _FileReaderViewState();
@@ -25,13 +20,13 @@ class FileReaderView extends StatefulWidget {
 
 class _FileReaderViewState extends State<FileReaderView> {
   FileReaderState _status = FileReaderState.LOADING_ENGINE;
-  String filePath;
+  String? filePath;
 
   @override
   void initState() {
     super.initState();
     filePath = widget.filePath;
-    File(filePath).exists().then((exists) {
+    File(filePath!).exists().then((exists) {
       if (exists) {
         _checkOnLoad();
       } else {
@@ -85,7 +80,7 @@ class _FileReaderViewState extends State<FileReaderView> {
   Widget _unSupportFile() {
     return widget.unSupportFileWidget ??
         Center(
-          child: Text("不支持打开${_fileType(filePath)}类型的文件"),
+          child: Text("不支持打开${_fileType(filePath!)}类型的文件"),
         );
   }
 
@@ -111,14 +106,11 @@ class _FileReaderViewState extends State<FileReaderView> {
   }
 
   Widget _createAndroidView() {
-    return AndroidView(
-        viewType: "FileReader",
-        onPlatformViewCreated: _onPlatformViewCreated,
-        creationParamsCodec: StandardMessageCodec());
+    return AndroidView(viewType: "FileReader", onPlatformViewCreated: _onPlatformViewCreated, creationParamsCodec: StandardMessageCodec());
   }
 
   _onPlatformViewCreated(int id) {
-    FileReader.instance.openFile(id, filePath, (success) {
+    FileReader.instance.openFile(id, filePath!, (success) {
       if (!success) {
         _setStatus(FileReaderState.UNSUPPORT_FILE);
       }

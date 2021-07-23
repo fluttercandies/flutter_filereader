@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_filereader_example/file.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -18,14 +19,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    Permission.storage.request();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage(),
+    return OKToast(
+      child: MaterialApp(
+        home: HomePage(),
+      ),
     );
   }
 }
@@ -36,8 +38,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String taskId;
-
   Map<String, String> iosfiles = {
     "docx": "assets/files/docx.docx", // IOS test
     "doc": "assets/files/doc.doc", // IOS test
@@ -63,13 +63,13 @@ class _HomePageState extends State<HomePage> {
     "txt": "assets/files/txt.txt" // android test
   };
 
-  Map<String, String> files;
+  Map<String, String> files = {};
 
   @override
   void initState() {
     if (Platform.isAndroid) {
       files = androidfiles;
-    } else {
+    } else if (Platform.isIOS) {
       files = iosfiles;
     }
     super.initState();
@@ -111,6 +111,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   onTap(String type, String assetPath) async {
+    bool isGranted = await Permission.storage.isGranted;
+    if (!isGranted) {
+      isGranted = (await Permission.storage.request()).isGranted;
+      if (!isGranted) {
+        showToast("NO Storage Permission");
+        return;
+      }
+    }
     String localPath = await fileLocalName(type, assetPath);
     if (!await File(localPath).exists()) {
       if (!await asset2Local(type, assetPath)) {
@@ -158,12 +166,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   _localSavedDir() async {
-    Directory dic;
+    Directory? dic;
     if (defaultTargetPlatform == TargetPlatform.android) {
       dic = await getExternalStorageDirectory();
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       dic = await getApplicationDocumentsDirectory();
     }
-    return dic.path;
+    return dic?.path;
   }
 }

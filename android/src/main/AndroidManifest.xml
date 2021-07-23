@@ -9,11 +9,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
-    <application android:networkSecurityConfig="@xml/android_q_net_security_config" android:hardwareAccelerated="true">
+    <application
+        android:hardwareAccelerated="true"
+        >
 
 
         <!--     在AndroidManifest.xml中增加内核首次加载时优化Service声明；    该Service仅在TBS内核首次Dex加载时触发并执行dex2oat任务，任务完成后自动结束。  -->
@@ -21,8 +23,6 @@
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
             android:process=":dexopt" />
-
-
 
 
     </application>

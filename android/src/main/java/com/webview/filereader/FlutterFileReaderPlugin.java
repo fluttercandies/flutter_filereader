@@ -9,7 +9,9 @@ import android.util.Log;
 
 import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.ReaderWizard;
 import com.tencent.smtt.sdk.TbsListener;
+import com.tencent.smtt.sdk.TbsReaderView;
 import com.tencent.smtt.sdk.ValueCallback;
 
 import java.lang.reflect.Field;
@@ -108,10 +110,18 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
 
     public void initX5(final Context context) {
         Log.e("FileReader", "初始化X5");
+        ///不获取AndroidID
+        QbSdk.canGetAndroidId(false);
+        ///不获取设备IMEI
+        QbSdk.canGetDeviceId(false);
+        ///不获取IMSI
+        QbSdk.canGetSubscriberId(false);
+
         if (!QbSdk.canLoadX5(context)) {
             //重要
             QbSdk.reset(context);
         }
+
         preInitCallback = new QbSdkPreInitCallback();
         // 在调用TBS初始化、创建WebView之前进行如下配置，以开启优化方案
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -123,13 +133,12 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
         QbSdk.setTbsListener(new TbsListener() {
             @Override
             public void onDownloadFinish(int i) {
-                Log.e("FileReader", "TBS下载完成");
+                Log.e("FileReader", "TBS下载完成" + i);
             }
 
             @Override
             public void onInstallFinish(int i) {
-                Log.e("FileReader", "TBS安装完成");
-
+                Log.e("FileReader", "TBS安装完成 " + i);
             }
 
             @Override
@@ -137,10 +146,7 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
                 Log.e("FileReader", "TBS下载进度:" + i);
             }
         });
-
         QbSdk.initX5Environment(context, preInitCallback);
-
-
     }
 
     @Override
@@ -158,12 +164,15 @@ public class FlutterFileReaderPlugin implements MethodChannel.MethodCallHandler,
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("style", "1");
             params.put("local", "false");
+
             QbSdk.openFileReader(ctx, filePath, params, new ValueCallback<String>() {
                 @Override
                 public void onReceiveValue(String s) {
                     Log.d("FileReader", "openFileReader->" + s);
                 }
             });
+
+
         }
         return true;
     }
