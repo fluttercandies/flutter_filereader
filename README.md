@@ -18,6 +18,12 @@ dependencies:
   flutter_filereader: ^2.2.0
 ```
 
+>=2.0.0
+```
+dependencies:
+  flutter_filereader: 3.0.0
+```
+
 
 ## Support File Type
 * IOS `docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,jpeg,png`
