@@ -1,6 +1,6 @@
 name: flutter_filereader
 description:  A local file view widget,Support a variety of file types, such as Doc Eexcl PPT TXT and so on,Android is implemented by Tencent X5,iOS is implemented by WKWebView
-version: 3.0.0
+version: 3.0.0+1
 author: shingohu <shingohu@163.com>
 homepage: https://github.com/shingohu/flutter_filereader
 
