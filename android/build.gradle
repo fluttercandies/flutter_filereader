@@ -43,7 +43,8 @@ dependencies {
     //43903开始 支持文件打开和webview，支持64位，修复稳定性问题
     //44065还没发布到厂库
     //api 'com.tencent.tbs.tbssdk:sdk:43939'
+    api 'com.tencent.tbs:tbssdk:44216'
 
-    api fileTree(include: ['*.jar'], dir: 'libs')
+    // api fileTree(include: ['*.jar'], dir: 'libs')
 
 }
